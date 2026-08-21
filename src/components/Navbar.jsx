@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect, useRef } from 'react';
 
 const NAV_LINKS = [
   { href: '#about', label: 'About' },
@@ -15,7 +15,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
-  const toggleRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -39,7 +38,6 @@ export default function Navbar() {
 
   const closeMenu = () => setMenuOpen(false);
 
-  // Magnetic CTA effect
   const ctaRef = useRef(null);
   const handleCtaMove = (e) => {
     const rect = ctaRef.current.getBoundingClientRect();
@@ -80,7 +78,6 @@ export default function Navbar() {
         </a>
         <button
           className="nav-toggle"
-          ref={toggleRef}
           aria-label="Toggle menu"
           onClick={() => setMenuOpen((prev) => !prev)}
         >

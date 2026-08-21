@@ -1,4 +1,4 @@
-export default function Experience() {
+﻿export default function Experience() {
   return (
     <section className="section" id="experience">
       <div className="container">
@@ -51,11 +51,11 @@ export default function Experience() {
               <div className="v-tl-ripple" /><i className="fas fa-building" />
             </div>
             <div className="v-tl-card" style={{ '--card-accent': 'var(--cyan)' }}>
-              <div className="v-tl-date">Apr 2025 — Jul 2025</div>
-              <h3>AI/ML Mentee — Pragati Cohort 5</h3>
+              <div className="v-tl-date">Apr 2025 – Jul 2025</div>
+              <h3>AI/ML Mentee – Pragati Cohort 5</h3>
               <p className="v-tl-org">Infosys Springboard</p>
               <p className="v-tl-desc">
-                Selected for "Pragati: Path to Future — Cohort 5," a 12-week empowerment initiative for
+                Selected for "Pragati: Path to Future – Cohort 5," a 12-week empowerment initiative for
                 women in tech. Implemented AI/ML concepts through guided projects and mentorship.
               </p>
             </div>
@@ -76,6 +76,26 @@ export default function Experience() {
               </p>
             </div>
           </div>
+
+          {/* CICD ProSystems */}
+          <div className="v-tl-item v-tl-left">
+            <div className="v-tl-node">
+              <div className="v-tl-ripple" />
+              <i className="fas fa-laptop-code" />
+            </div>
+            <div className="v-tl-card" style={{ '--card-accent': 'var(--cyan)' }}>
+              <div className="v-tl-date">Jun 2026 – Aug 2026</div>
+              <h3>Summer Intern – AI/ML</h3>
+              <p className="v-tl-org">CICD ProSystems</p>
+              <p className="v-tl-desc">
+                Completed a 2-month summer internship at CICD ProSystems from 15 June to
+                15 August 2026. Gained hands-on experience in AI/ML development,
+                working on practical projects and applying machine learning concepts
+                in a professional environment.
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

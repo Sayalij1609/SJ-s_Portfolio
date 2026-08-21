@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+﻿import { useState, useEffect, useCallback } from 'react';
+import Loader from './components/Loader';
 import ParticleCanvas from './components/ParticleCanvas';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
-import Skills from './components/Skills';
+import TechStack from './components/TechStack';
 import Education from './components/Education';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
@@ -14,8 +15,27 @@ import Footer from './components/Footer';
 import ScrollTop from './components/ScrollTop';
 
 export default function App() {
-  // Global scroll reveal observer
+  const [loading, setLoading] = useState(true);
+
+  // Prevent unwanted auto-jump to anchor on page refresh
   useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleLoaderComplete = useCallback(() => {
+    setLoading(false);
+    // Ensure viewport stays at top when loader disappears
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 10);
+  }, []);
+
+  // Global scroll reveal observer for below-the-fold sections
+  useEffect(() => {
+    if (loading) return;
     const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
     const obs = new IntersectionObserver(
       (entries) => {
@@ -26,15 +46,16 @@ export default function App() {
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
     );
     revealEls.forEach((el) => obs.observe(el));
     return () => obs.disconnect();
-  }, []);
+  }, [loading]);
 
   // Staggered grid reveal
   useEffect(() => {
-    const grids = document.querySelectorAll('.projects-grid-v2, .events-grid, .ach-grid');
+    if (loading) return;
+    const grids = document.querySelectorAll('.pv3-grid, .events-grid, .ach-grid');
     grids.forEach((grid) => {
       grid.classList.add('stagger-parent');
       Array.from(grid.children).forEach((card, i) => {
@@ -44,7 +65,6 @@ export default function App() {
       });
     });
 
-    // Re-observe newly classed reveal elements
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -54,14 +74,15 @@ export default function App() {
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
     );
     document.querySelectorAll('.stagger-parent .reveal:not(.visible)').forEach((el) => obs.observe(el));
     return () => obs.disconnect();
-  }, []);
+  }, [loading]);
 
   // Timeline scroll-driven line fill
   useEffect(() => {
+    if (loading) return;
     const onScroll = () => {
       document.querySelectorAll('.v-timeline').forEach((tl) => {
         const fill = tl.querySelector('.v-timeline-line-fill');
@@ -74,10 +95,11 @@ export default function App() {
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [loading]);
 
   // Timeline item visibility
   useEffect(() => {
+    if (loading) return;
     const vtlItems = document.querySelectorAll('.v-tl-item');
     const obs = new IntersectionObserver(
       (entries) => {
@@ -88,39 +110,41 @@ export default function App() {
           }
         });
       },
-      { threshold: 0.15, rootMargin: '0px 0px -30px 0px' }
+      { threshold: 0.12, rootMargin: '0px 0px -20px 0px' }
     );
     vtlItems.forEach((el, i) => {
-      el.style.transitionDelay = `${i * 0.15}s`;
+      el.style.transitionDelay = `${i * 0.12}s`;
       obs.observe(el);
     });
     return () => obs.disconnect();
-  }, []);
+  }, [loading]);
 
   // Parallax section labels
   useEffect(() => {
+    if (loading) return;
     const labels = document.querySelectorAll('.section-label');
     if (!labels.length) return;
     const onScroll = () => {
       labels.forEach((label) => {
         const rect = label.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
-          const offset = (rect.top / window.innerHeight) * 15;
+          const offset = (rect.top / window.innerHeight) * 12;
           label.style.transform = `translateY(${offset}px)`;
         }
       });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [loading]);
 
   return (
     <>
+      {loading && <Loader onComplete={handleLoaderComplete} />}
       <ParticleCanvas />
       <Navbar />
       <Hero />
       <About />
-      <Skills />
+      <TechStack />
       <Education />
       <Projects />
       <Experience />
