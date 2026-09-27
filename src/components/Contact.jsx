@@ -98,6 +98,7 @@ export default function Contact() {
           <a href="https://leetcode.com/u/jsaya/" target="_blank" rel="noopener noreferrer" className="cp-link"><i className="fas fa-code" /> LeetCode</a>
           <a href="https://www.codechef.com/users/sayali_07019" target="_blank" rel="noopener noreferrer" className="cp-link"><i className="fas fa-laptop-code" /> CodeChef</a>
           <a href="https://www.hackerrank.com/profile/sayalij1609" target="_blank" rel="noopener noreferrer" className="cp-link"><i className="fab fa-hackerrank" /> HackerRank</a>
+          <a href="/Sayali_Jadhav_Resume.pdf" target="_blank" rel="noopener noreferrer" className="cp-link" download="Sayali_Jadhav_Resume.pdf"><i className="fas fa-file-pdf" /> Resume</a>
         </div>
       </div>
     </section>

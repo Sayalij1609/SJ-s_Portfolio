@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 
 # ✨ Sayali Jadhav — Portfolio Website
 
@@ -115,7 +115,7 @@ Sayali_Portfolio_React/
 ├── public/
 │   ├── images/              # Project screenshots, avatars & assets
 │   ├── favicon.svg          # Site favicon
-│   └── Sayali_Jadhav_CV.pdf # Resume download asset
+│   └── Sayali_Jadhav_Resume.pdf # Resume download asset
 ├── src/
 │   ├── components/
 │   │   ├── About.jsx        # About Me & personal traits

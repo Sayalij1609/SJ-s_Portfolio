@@ -34,7 +34,7 @@ const PROJECTS = [
     features: ['Multi-Agent Research', 'Web Search', 'Web Scraping', 'Report Synthesis', 'Quality Auditing', 'Document Export'],
     tech: ['React', 'Vite', 'FastAPI', 'LangChain', 'LangGraph', 'Python', 'DuckDuckGo', 'BeautifulSoup', 'Pydantic'],
     github: 'https://github.com/Sayalij1609/Multi-Agent-Research-System.git',
-    live: 'https://multi-agent-research-system-6qwo.onrender.com/',
+    live: 'https://multi-agent-research-system-pink.vercel.app/',
   },
   {
     id: 3,
@@ -48,7 +48,7 @@ const PROJECTS = [
     features: ['Task Management', 'Habit Tracking', 'Smart Notes', 'Productivity Analytics', 'Email Reminders'],
     tech: ['React', 'Vite', 'Flask', 'REST API', 'JWT', 'SQLAlchemy', 'PostgreSQL', 'Chart.js', 'APScheduler'],
     github: 'https://github.com/Sayalij1609/FlowNest_Productivity_Hub_New_Version.git',
-    live: 'https://flownest-productivity-hub-new-version.onrender.com/app',
+    live: 'https://flow-nest-productivity-hub-new-vers.vercel.app/',
   },
   {
     id: 4,
@@ -76,7 +76,7 @@ const PROJECTS = [
     features: ['Multi-Agent Triage', 'Explainable AI Insights', 'Clinical RAG Engine', 'Medical Knowledge Base'],
     tech: ['LLMs', 'RAG', 'XAI (SHAP)', 'LangChain', 'Python', 'FastAPI'],
     github: '#',
-    live: '#',
+    live: 'https://med-agentix-ai.vercel.app/',
   },
   {
     id: 6,

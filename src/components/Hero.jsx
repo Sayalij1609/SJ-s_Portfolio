@@ -89,8 +89,14 @@ export default function Hero() {
             <a href="#contact" className="btn btn-primary">
               <i className="fas fa-paper-plane" /> Get In Touch
             </a>
-            <a href="/Sayali_Jadhav_CV.pdf" className="btn btn-ghost" download="Sayali_Jadhav_CV.pdf">
-              <i className="fas fa-arrow-down" /> Download CV
+            <a
+              href="/Sayali_Jadhav_Resume.pdf"
+              className="btn btn-ghost"
+              download="Sayali_Jadhav_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="fas fa-arrow-down" /> Download Resume
             </a>
           </div>
           <div className="hero-stats">
