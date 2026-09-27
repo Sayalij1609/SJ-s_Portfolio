@@ -1,4 +1,5 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import HeroIllustration from './HeroIllustration';
 
 export default function Hero() {
   const roleRef = useRef(null);
@@ -94,7 +95,7 @@ export default function Hero() {
           </div>
           <div className="hero-stats">
             <div className="stat">
-              <span className="stat-num" data-value="9.31">9.31</span>
+              <span className="stat-num" data-value="9.26">9.26</span>
               <span className="stat-label">CGPA</span>
             </div>
             <div className="stat-divider" />
@@ -104,25 +105,13 @@ export default function Hero() {
             </div>
             <div className="stat-divider" />
             <div className="stat">
-              <span className="stat-num" data-value="11+">11+</span>
+              <span className="stat-num" data-value="12+">12+</span>
               <span className="stat-label">Projects</span>
             </div>
           </div>
         </div>
         <div className="hero-visual">
-          <div className="hero-glow-orb" />
-          <div className="avatar-wrap hero-float">
-            <div className="avatar-ring" />
-            <div className="avatar-img">
-              <img src="/images/hero.jpeg" alt="Sayali Jadhav" />
-            </div>
-            <div className="avatar-badge"><i className="fas fa-brain" /> AI/ML</div>
-          </div>
-          <div className="floating-chip chip-1"><i className="fab fa-python" /> Python</div>
-          <div className="floating-chip chip-2"><i className="fas fa-robot" /> LLMs</div>
-          <div className="floating-chip chip-3"><i className="fas fa-eye" /> CV</div>
-          <div className="floating-chip chip-4"><i className="fas fa-microchip" /> Agentic AI</div>
-          <div className="floating-chip chip-5"><i className="fas fa-wand-magic-sparkles" /> Gen AI</div>
+          <HeroIllustration />
         </div>
       </div>
       <div className="scroll-hint">

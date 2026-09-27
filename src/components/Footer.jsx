@@ -1,4 +1,4 @@
-﻿export default function Footer() {
+export default function Footer() {
   return (
     <footer className="footer">
       <div className="container footer-inner">
@@ -6,7 +6,7 @@
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
           <p>Designed &amp; built by Sayali &middot; 2026</p>
           <img
-            src="https://api.visitorbadge.io/api/visitors?path=Sayalij1609-SayaliPortfolio&countColor=%239E4AB0&labelColor=%23000000&style=flat-square&label=Views"
+            src="https://api.visitorbadge.io/api/visitors?path=Sayalij1609-SayaliPortfolio&countColor=%23018ABE&labelColor=%23001B48&style=flat-square&label=Views"
             alt="Profile Views Counter"
           />
         </div>

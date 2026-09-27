@@ -45,6 +45,10 @@ export default function Contact() {
 
         <div className="contact-grid">
           <div className="contact-links reveal">
+            <a href="mailto:sayalijadhav162005@gmail.com" className="contact-item">
+              <i className="fas fa-envelope" />
+              <div><strong>Email</strong><span>sayalijadhav162005@gmail.com</span></div>
+            </a>
             <a href="tel:9359582185" className="contact-item">
               <i className="fas fa-phone" />
               <div><strong>Phone</strong><span>+91 93595 82185</span></div>

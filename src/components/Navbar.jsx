@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const NAV_LINKS = [
   { href: '#about', label: 'About' },
@@ -15,6 +15,25 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('sayali_theme') || 'dark';
+    }
+    return 'dark';
+  });
+
+  useEffect(() => {
+    // Ensure data-theme is synchronized on mount
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    localStorage.setItem('sayali_theme', nextTheme);
+    window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: nextTheme } }));
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -66,19 +85,38 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <a href="#contact" className="nav-menu-mobile-cta" onClick={closeMenu}>
+            <i className="fas fa-paper-plane" /> Hire Me
+          </a>
         </nav>
-        <a
-          href="#contact"
-          className="nav-cta"
-          ref={ctaRef}
-          onMouseMove={handleCtaMove}
-          onMouseLeave={handleCtaLeave}
-        >
-          Hire Me
-        </a>
+        <div className="nav-actions">
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
+            type="button"
+          >
+            <span className="theme-toggle-slider">
+              <span className={`theme-toggle-knob ${theme}`}>
+                <i className={theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun'} />
+              </span>
+            </span>
+          </button>
+          <a
+            href="#contact"
+            className="nav-cta"
+            ref={ctaRef}
+            onMouseMove={handleCtaMove}
+            onMouseLeave={handleCtaLeave}
+          >
+            Hire Me
+          </a>
+        </div>
         <button
           className="nav-toggle"
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
           onClick={() => setMenuOpen((prev) => !prev)}
         >
           <span style={menuOpen ? { transform: 'rotate(45deg) translate(5px,5px)' } : {}} />

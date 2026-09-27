@@ -1,8 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
-
-const PARTICLE_COUNT = 100;
-const DARK_COLORS = ['#9E4AB0', '#8B4F67', '#C9A0B8', '#9E4AB0', '#F0E8EC'];
-const LIGHT_COLORS = ['#7A2D96', '#8B4F67', '#9E4AB0', '#C9A0B8', '#D4C0CC'];
+import { useEffect, useRef } from 'react';
 
 export default function ParticleCanvas() {
   const canvasRef = useRef(null);
@@ -12,87 +8,233 @@ export default function ParticleCanvas() {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     let animId;
-    let particles = [];
-    let mouseX = -1000, mouseY = -1000;
-    const MAX_DIST = 120;
+    let width = 0;
+    let height = 0;
 
-    const getColors = () => {
-      const theme = document.documentElement.getAttribute('data-theme');
-      return theme === 'light' ? LIGHT_COLORS : DARK_COLORS;
-    };
-    const getStrokeColor = () => {
-      const theme = document.documentElement.getAttribute('data-theme');
-      return theme === 'light' ? '#7A2D96' : '#9E4AB0';
-    };
+    // Smooth mouse coordinates with spring lerp
+    let targetMouse = { x: -1000, y: -1000 };
+    let currentMouse = { x: -1000, y: -1000 };
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.scale(dpr, dpr);
     };
-    resize();
+
+    let currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+
+    const onThemeChange = (e) => {
+      if (e.detail && e.detail.theme) {
+        currentTheme = e.detail.theme;
+      } else {
+        currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      }
+    };
+    window.addEventListener('themechange', onThemeChange);
+
+    // Living Aurora Gradient Orbs for Light and Dark modes
+    const lightOrbs = [
+      {
+        baseX: 0.2,
+        baseY: 0.25,
+        radius: 380,
+        speedX: 0.0008,
+        speedY: 0.0011,
+        ampX: 180,
+        ampY: 140,
+        colorInner: 'rgba(1, 138, 190, 0.22)',
+        colorMid: 'rgba(151, 202, 219, 0.12)',
+        colorOuter: 'rgba(214, 232, 238, 0)',
+        phase: 0,
+      },
+      {
+        baseX: 0.8,
+        baseY: 0.35,
+        radius: 440,
+        speedX: 0.0009,
+        speedY: 0.0007,
+        ampX: 200,
+        ampY: 160,
+        colorInner: 'rgba(151, 202, 219, 0.28)',
+        colorMid: 'rgba(1, 138, 190, 0.14)',
+        colorOuter: 'rgba(214, 232, 238, 0)',
+        phase: Math.PI * 0.7,
+      },
+      {
+        baseX: 0.35,
+        baseY: 0.75,
+        radius: 480,
+        speedX: 0.0007,
+        speedY: 0.001,
+        ampX: 190,
+        ampY: 150,
+        colorInner: 'rgba(2, 69, 122, 0.16)',
+        colorMid: 'rgba(1, 138, 190, 0.1)',
+        colorOuter: 'rgba(214, 232, 238, 0)',
+        phase: Math.PI * 1.3,
+      },
+      {
+        baseX: 0.85,
+        baseY: 0.8,
+        radius: 400,
+        speedX: 0.001,
+        speedY: 0.0008,
+        ampX: 170,
+        ampY: 130,
+        colorInner: 'rgba(1, 138, 190, 0.18)',
+        colorMid: 'rgba(151, 202, 219, 0.12)',
+        colorOuter: 'rgba(214, 232, 238, 0)',
+        phase: Math.PI * 1.8,
+      },
+    ];
+
+    const darkOrbs = [
+      {
+        baseX: 0.18,
+        baseY: 0.22,
+        radius: 440,
+        speedX: 0.0008,
+        speedY: 0.0011,
+        ampX: 190,
+        ampY: 140,
+        colorInner: 'rgba(1, 138, 190, 0.18)',
+        colorMid: 'rgba(2, 69, 122, 0.08)',
+        colorOuter: 'rgba(0, 0, 0, 0)',
+        phase: 0,
+      },
+      {
+        baseX: 0.82,
+        baseY: 0.3,
+        radius: 470,
+        speedX: 0.0009,
+        speedY: 0.0007,
+        ampX: 210,
+        ampY: 160,
+        colorInner: 'rgba(151, 202, 219, 0.15)',
+        colorMid: 'rgba(1, 138, 190, 0.07)',
+        colorOuter: 'rgba(0, 0, 0, 0)',
+        phase: Math.PI * 0.7,
+      },
+      {
+        baseX: 0.32,
+        baseY: 0.76,
+        radius: 520,
+        speedX: 0.0007,
+        speedY: 0.001,
+        ampX: 190,
+        ampY: 150,
+        colorInner: 'rgba(2, 69, 122, 0.18)',
+        colorMid: 'rgba(1, 138, 190, 0.08)',
+        colorOuter: 'rgba(0, 0, 0, 0)',
+        phase: Math.PI * 1.3,
+      },
+      {
+        baseX: 0.86,
+        baseY: 0.78,
+        radius: 440,
+        speedX: 0.001,
+        speedY: 0.0008,
+        ampX: 180,
+        ampY: 130,
+        colorInner: 'rgba(1, 138, 190, 0.16)',
+        colorMid: 'rgba(151, 202, 219, 0.07)',
+        colorOuter: 'rgba(0, 0, 0, 0)',
+        phase: Math.PI * 1.8,
+      },
+    ];
+
+    init();
     window.addEventListener('resize', resize);
 
-    const colors = getColors();
-    particles = Array.from({ length: PARTICLE_COUNT }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      r: Math.random() * 2 + 0.5,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      alpha: Math.random() * 0.35 + 0.1,
-    }));
+    function init() {
+      resize();
+      targetMouse = { x: width * 0.5, y: height * 0.35 };
+      currentMouse = { x: width * 0.5, y: height * 0.35 };
+    }
 
-    const onMouse = (e) => { mouseX = e.clientX; mouseY = e.clientY; };
-    const onMouseOut = () => { mouseX = -1000; mouseY = -1000; };
-    window.addEventListener('mousemove', onMouse, { passive: true });
-    window.addEventListener('mouseout', onMouseOut);
+    const onMouseMove = (e) => {
+      targetMouse.x = e.clientX;
+      targetMouse.y = e.clientY;
+    };
 
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+
+    let time = 0;
     const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        const dx = p.x - mouseX, dy = p.y - mouseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 100) { p.x += dx / dist * 1.5; p.y += dy / dist * 1.5; }
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-        ctx.save();
-        ctx.globalAlpha = p.alpha;
-        ctx.fillStyle = p.color;
+      time += 1;
+      ctx.clearRect(0, 0, width, height);
+
+      // Smooth lerp mouse spotlight
+      currentMouse.x += (targetMouse.x - currentMouse.x) * 0.06;
+      currentMouse.y += (targetMouse.y - currentMouse.y) * 0.06;
+
+      const isDark = currentTheme === 'dark';
+      const activeOrbs = isDark ? darkOrbs : lightOrbs;
+
+      ctx.save();
+      // In dark mode, 'screen' or 'lighter' creates a celestial glowing aurora
+      ctx.globalCompositeOperation = isDark ? 'screen' : 'source-over';
+
+      // 1. Draw Living Aurora Gradient Fields
+      for (let i = 0; i < activeOrbs.length; i++) {
+        const orb = activeOrbs[i];
+        const x = orb.baseX * width + Math.sin(time * orb.speedX + orb.phase) * orb.ampX;
+        const y = orb.baseY * height + Math.cos(time * orb.speedY + orb.phase) * orb.ampY;
+        const breathRadius = orb.radius + Math.sin(time * 0.015 + orb.phase) * 35;
+
+        const grad = ctx.createRadialGradient(x, y, 0, x, y, breathRadius);
+        grad.addColorStop(0, orb.colorInner);
+        grad.addColorStop(0.55, orb.colorMid);
+        grad.addColorStop(1, orb.colorOuter);
+
+        ctx.fillStyle = grad;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.arc(x, y, breathRadius, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx2 = particles[i].x - particles[j].x;
-          const dy2 = particles[i].y - particles[j].y;
-          const d = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-          if (d < MAX_DIST) {
-            ctx.save();
-            ctx.globalAlpha = (1 - d / MAX_DIST) * 0.1;
-            ctx.strokeStyle = getStrokeColor();
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-            ctx.restore();
-          }
-        }
       }
+
+      // 2. Interactive Cursor Ambient Spotlight
+      if (currentMouse.x > 0 && currentMouse.y > 0) {
+        const spotlightRadius = 340;
+        const spotGrad = ctx.createRadialGradient(
+          currentMouse.x,
+          currentMouse.y,
+          0,
+          currentMouse.x,
+          currentMouse.y,
+          spotlightRadius
+        );
+
+        if (isDark) {
+          spotGrad.addColorStop(0, 'rgba(1, 138, 190, 0.12)');
+          spotGrad.addColorStop(0.4, 'rgba(151, 202, 219, 0.05)');
+          spotGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        } else {
+          spotGrad.addColorStop(0, 'rgba(1, 138, 190, 0.16)');
+          spotGrad.addColorStop(0.4, 'rgba(151, 202, 219, 0.09)');
+          spotGrad.addColorStop(1, 'rgba(214, 232, 238, 0)');
+        }
+
+        ctx.fillStyle = spotGrad;
+        ctx.beginPath();
+        ctx.arc(currentMouse.x, currentMouse.y, spotlightRadius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
       animId = requestAnimationFrame(draw);
     };
-    draw();
+
+    animId = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
-      window.removeEventListener('mousemove', onMouse);
-      window.removeEventListener('mouseout', onMouseOut);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('themechange', onThemeChange);
     };
   }, []);
 

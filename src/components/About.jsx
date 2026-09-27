@@ -23,7 +23,7 @@ export default function About() {
               </div>
               <div className="info-row">
                 <span className="info-key">CGPA</span>
-                <span className="info-val accent">9.31 / 10</span>
+                <span className="info-val accent">9.26 / 10</span>
               </div>
             </div>
           </div>

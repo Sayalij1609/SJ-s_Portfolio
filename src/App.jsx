@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Loader from './components/Loader';
 import ParticleCanvas from './components/ParticleCanvas';
 import Navbar from './components/Navbar';

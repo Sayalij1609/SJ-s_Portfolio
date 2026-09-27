@@ -26,7 +26,7 @@ export default function Education() {
                   <span key={t}>{t}</span>
                 ))}
               </div>
-              <div className="v-tl-badge">CGPA: 9.31 / 10</div>
+              <div className="v-tl-badge">CGPA: 9.26 / 10</div>
             </div>
           </div>
 

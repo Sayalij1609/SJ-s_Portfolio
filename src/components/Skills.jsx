@@ -104,7 +104,7 @@ export default function Skills() {
           </div>
 
           {/* Core CS */}
-          <div className="bento-card bento-standard reveal" style={{ '--accent': '#EC4899' }}>
+          <div className="bento-card bento-standard reveal" style={{ '--accent': '#018ABE' }}>
             <div className="bento-glow" />
             <div className="bento-icon"><i className="fas fa-microchip" /></div>
             <h3>Core CS</h3>
@@ -117,7 +117,7 @@ export default function Skills() {
           </div>
 
           {/* Databases */}
-          <div className="bento-card bento-standard reveal" style={{ '--accent': '#F472B6' }}>
+          <div className="bento-card bento-standard reveal" style={{ '--accent': '#02457A' }}>
             <div className="bento-glow" />
             <div className="bento-icon"><i className="fas fa-database" /></div>
             <h3>Databases</h3>
@@ -130,7 +130,7 @@ export default function Skills() {
           </div>
 
           {/* Frameworks (wide) */}
-          <div className="bento-card bento-wide reveal" style={{ '--accent': 'var(--purple)' }}>
+          <div className="bento-card bento-wide reveal" style={{ '--accent': '#018ABE' }}>
             <div className="bento-glow" />
             <div className="wide-header">
               <div className="wide-icon"><i className="fas fa-layer-group" /></div>
@@ -151,7 +151,7 @@ export default function Skills() {
           </div>
 
           {/* Tools */}
-          <div className="bento-card bento-standard reveal" style={{ '--accent': '#F9A8D4' }}>
+          <div className="bento-card bento-standard reveal" style={{ '--accent': '#02457A' }}>
             <div className="bento-glow" />
             <div className="bento-icon"><i className="fas fa-tools" /></div>
             <h3>Tools</h3>
